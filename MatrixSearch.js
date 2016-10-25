@@ -18,16 +18,16 @@ module.exports = {
 
     // 获取所在行数
     getRowNum: function(matrix, target) {
-        var from = 0;
-        var to = matrix.length - 1;
-        var rowSize = to;
-        var rowNum = -1;
+        var from = 0; // 起始行
+        var to = matrix.length - 1; // 末尾行
+        var rowSize = to; // 行数
+        var rowNum = -1; // 所在行号，-1为不存在
         // 二分查找，非递归
         while (from !== to) {
             var mid = parseInt((from + to) / 2);
-            var midRow = matrix[mid];
-            var prevRow = matrix[mid - 1];
-            var nextRow = matrix[mid + 1];
+            var midRow = matrix[mid]; // 中间一行
+            var prevRow = matrix[mid - 1]; // 中间前一行
+            var nextRow = matrix[mid + 1]; // 中间后一行
             if (midRow[0] <= target && midRow[midRow.length - 1] >= target) {
                 // 在中间一行
                 rowNum = mid;
@@ -47,9 +47,11 @@ module.exports = {
                 // 在中间一行后面
                 from = mid + 1;
             } else {
+                // 不在任何一行
                 break;
             }
         }
+        // 找到所在行
         if (from === to) {
             rowNum = from;
         }
@@ -58,7 +60,7 @@ module.exports = {
 
     search: function(matrix, target) {
         var rowNum = this.getRowNum(matrix, target);
-        if (rowNum < 0) {
+        if (rowNum < 0) { // 找不到行号，即不存在
             return false;
         }
         return this.binary(matrix[rowNum], 0, matrix[rowNum].length - 1, target);
